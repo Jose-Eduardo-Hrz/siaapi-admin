@@ -1,13 +1,14 @@
 <script lang="ts">
-    import type { PageData } from './$types';
-    import Breadcrumbs from '$lib/components/Breadcrumbs.svelte';
-    import SearchInput from '$lib/components/SearchInput.svelte';
-    import ProjectCard from '$lib/components/ProjectCard.svelte';
-    import PIACard from '$lib/components/PIACard.svelte';
-    import AreaCard from '$lib/components/AreaCard.svelte';
-    import DepartmentCard from '$lib/components/DepartmentCard.svelte';
-    import EmptyState from '$lib/components/EmptyState.svelte';
-    import { goto } from '$app/navigation';
+    import { asset } from "$app/paths";
+    import type { PageData } from "./$types";
+    import Breadcrumbs from "$lib/components/Breadcrumbs.svelte";
+    import SearchInput from "$lib/components/SearchInput.svelte";
+    import ProjectCard from "$lib/components/ProjectCard.svelte";
+    import PIACard from "$lib/components/PIACard.svelte";
+    import AreaCard from "$lib/components/AreaCard.svelte";
+    import DepartmentCard from "$lib/components/DepartmentCard.svelte";
+    import EmptyState from "$lib/components/EmptyState.svelte";
+    import { goto } from "$app/navigation";
 
     let { data }: { data: PageData } = $props();
 
@@ -19,33 +20,38 @@
 
     function executeSearch(term: string) {
         if (term.trim()) {
-            goto(`/buscar?q=${encodeURIComponent(term.trim())}`);
+            goto(asset(`/buscar?q=${encodeURIComponent(term.trim())}`));
         }
     }
 
     const totalResultados = $derived(
         data.resultados.proyectos.length +
-        data.resultados.pias.length +
-        data.resultados.areas.length +
-        data.resultados.departamentos.length
+            data.resultados.pias.length +
+            data.resultados.areas.length +
+            data.resultados.departamentos.length,
     );
 </script>
 
 <div class="buscar-page">
-    <Breadcrumbs items={[{ label: 'Búsqueda Global' }]} />
+    <Breadcrumbs items={[{ label: "Búsqueda Global" }]} />
 
     <header class="page-header">
         <h1 class="page-title">Búsqueda Global Multi-Entidad</h1>
-        <p class="page-subtitle">Encuentra proyectos, PIAs, áreas y departamentos en todo el sistema</p>
+        <p class="page-subtitle">
+            Encuentra proyectos, PIAs, áreas y departamentos en todo el sistema
+        </p>
     </header>
 
     <div class="card search-hero-card">
         <div class="hero-search-box">
-            <SearchInput 
-                placeholder="Escribe el nombre, clave, ID o acuerdo a buscar..." 
+            <SearchInput
+                placeholder="Escribe el nombre, clave, ID o acuerdo a buscar..."
                 bind:value={searchInputVal}
             />
-            <button class="btn btn-primary" onclick={() => executeSearch(searchInputVal)}>
+            <button
+                class="btn btn-primary"
+                onclick={() => executeSearch(searchInputVal)}
+            >
                 🔍 Buscar
             </button>
         </div>
@@ -60,15 +66,17 @@
         </div>
 
         {#if totalResultados === 0}
-            <EmptyState 
-                title="No se encontraron coincidencias" 
+            <EmptyState
+                title="No se encontraron coincidencias"
                 description={`No hubo resultados que coincidan con "${data.query}". Prueba buscar por clave de proyecto, nombre de PIA o docente.`}
             />
         {:else}
             <!-- 1. Proyectos -->
             {#if data.resultados.proyectos.length > 0}
                 <section class="results-section">
-                    <h3 class="section-badge-title">🔬 Proyectos ({data.resultados.proyectos.length})</h3>
+                    <h3 class="section-badge-title">
+                        🔬 Proyectos ({data.resultados.proyectos.length})
+                    </h3>
                     <div class="grid-cards">
                         {#each data.resultados.proyectos as proyecto}
                             <ProjectCard {proyecto} />
@@ -80,10 +88,16 @@
             <!-- 2. PIAs -->
             {#if data.resultados.pias.length > 0}
                 <section class="results-section">
-                    <h3 class="section-badge-title">📄 PIAs ({data.resultados.pias.length})</h3>
+                    <h3 class="section-badge-title">
+                        📄 PIAs ({data.resultados.pias.length})
+                    </h3>
                     <div class="grid-cards">
                         {#each data.resultados.pias as pia}
-                            <PIACard id={pia.id} nombre={pia.nombre} acuerdo={pia.acuerdo} />
+                            <PIACard
+                                id={pia.id}
+                                nombre={pia.nombre}
+                                acuerdo={pia.acuerdo}
+                            />
                         {/each}
                     </div>
                 </section>
@@ -92,7 +106,9 @@
             <!-- 3. Áreas -->
             {#if data.resultados.areas.length > 0}
                 <section class="results-section">
-                    <h3 class="section-badge-title">🏢 Áreas ({data.resultados.areas.length})</h3>
+                    <h3 class="section-badge-title">
+                        🏢 Áreas ({data.resultados.areas.length})
+                    </h3>
                     <div class="grid-cards">
                         {#each data.resultados.areas as area}
                             <AreaCard id={area.id} nombre={area.nombre} />
@@ -104,7 +120,10 @@
             <!-- 4. Departamentos -->
             {#if data.resultados.departamentos.length > 0}
                 <section class="results-section">
-                    <h3 class="section-badge-title">🏛️ Departamentos ({data.resultados.departamentos.length})</h3>
+                    <h3 class="section-badge-title">
+                        🏛️ Departamentos ({data.resultados.departamentos
+                            .length})
+                    </h3>
                     <div class="grid-cards">
                         {#each data.resultados.departamentos as dept}
                             <DepartmentCard id={dept.id} nombre={dept.nombre} />
