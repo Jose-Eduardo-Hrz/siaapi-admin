@@ -1,31 +1,48 @@
 <script lang="ts">
-    import type { ProyectoCompletoRow, ProyectoConResponsableRow, ProyectoRow } from '$lib/types/db';
-    import { formatearFecha } from '$lib/utils/dateFormat';
-    import ProjectStatusBadge from './ProjectStatusBadge.svelte';
+    import { asset } from "$app/paths";
+    import type {
+        ProyectoCompletoRow,
+        ProyectoConResponsableRow,
+        ProyectoRow,
+    } from "$lib/types/db";
+    import { formatearFecha } from "$lib/utils/dateFormat";
+    import ProjectStatusBadge from "./ProjectStatusBadge.svelte";
 
-    let { proyecto }: { proyecto: ProyectoCompletoRow | ProyectoRow | ProyectoConResponsableRow } = $props();
+    let {
+        proyecto,
+    }: {
+        proyecto: ProyectoCompletoRow | ProyectoRow | ProyectoConResponsableRow;
+    } = $props();
 
     const responsableNombre = $derived.by(() => {
-        if ('responsable' in proyecto && proyecto.responsable) {
-            if (typeof proyecto.responsable === 'string') {
+        if ("responsable" in proyecto && proyecto.responsable) {
+            if (typeof proyecto.responsable === "string") {
                 return proyecto.responsable;
             }
-            if (Array.isArray(proyecto.responsable) && proyecto.responsable.length > 0) {
+            if (
+                Array.isArray(proyecto.responsable) &&
+                proyecto.responsable.length > 0
+            ) {
                 return proyecto.responsable[0].nombre;
             }
-            if (typeof proyecto.responsable === 'object' && 'nombre' in proyecto.responsable) {
+            if (
+                typeof proyecto.responsable === "object" &&
+                "nombre" in proyecto.responsable
+            ) {
                 return (proyecto.responsable as any).nombre;
             }
         }
-        return 'No asignado';
+        return "No asignado";
     });
 </script>
 
-
-<a href="/proyectos/{proyecto.id}" class="card card-interactive project-card">
+<a
+    href={asset(`/proyectos/${proyecto.id}`)}
+    class="card card-interactive project-card"
+>
     <div class="proj-header">
         <div class="proj-title-box">
-            <span class="proj-clave">Clave: {proyecto.clave || 'S/C'}</span>
+            <span class="proj-clave">Clave: {proyecto.clave || "S/C"}</span>
             <h3 class="proj-name">{proyecto.nombre}</h3>
         </div>
         <ProjectStatusBadge {proyecto} />
@@ -43,7 +60,12 @@
         {#if proyecto.fecha_prorroga || (proyecto as any).feche_prorroga}
             <div class="date-item">
                 <span class="date-label">Próroga</span>
-                <span class="date-val highlight">{formatearFecha(proyecto.fecha_prorroga ?? (proyecto as any).feche_prorroga)}</span>
+                <span class="date-val highlight"
+                    >{formatearFecha(
+                        proyecto.fecha_prorroga ??
+                            (proyecto as any).feche_prorroga,
+                    )}</span
+                >
             </div>
         {/if}
     </div>

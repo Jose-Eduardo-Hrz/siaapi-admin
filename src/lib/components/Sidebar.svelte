@@ -1,16 +1,16 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import { asset } from "$app/paths";
+    import { page } from "$app/stores";
 
     let navItems = [
-        { label: 'Dashboard', href: '/', icon: '📊' },
-        { label: 'Proyectos', href: '/proyectos', icon: '🔬' },
-        { label: 'Búsqueda Global', href: '/buscar', icon: '🔍' }
+        { label: "Dashboard", href: asset("/"), icon: "📊" },
+        { label: "Proyectos", href: asset("/proyectos"), icon: "🔬" },
+        { label: "Búsqueda Global", href: asset("/buscar"), icon: "🔍" },
     ];
 
-
     function isActive(href: string, currentPath: string): boolean {
-        if (href === '/') {
-            return currentPath === '/';
+        if (href === asset("/")) {
+            return currentPath === asset("/");
         }
         return currentPath.startsWith(href);
     }
@@ -85,7 +85,6 @@
         background-clip: text;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-
     }
 
     .logo-text {

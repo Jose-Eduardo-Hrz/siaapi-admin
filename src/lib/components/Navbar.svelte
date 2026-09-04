@@ -1,12 +1,13 @@
 <script lang="ts">
-    import { goto } from '$app/navigation';
+    import { goto } from "$app/navigation";
+    import { asset } from "$app/paths";
 
-    let searchQuery = $state('');
+    let searchQuery = $state("");
 
     function handleSearch(e: Event) {
         e.preventDefault();
         if (searchQuery.trim()) {
-            goto(`/buscar?q=${encodeURIComponent(searchQuery.trim())}`);
+            goto(asset(`/buscar?q=${encodeURIComponent(searchQuery.trim())}`));
         }
     }
 </script>
@@ -15,9 +16,9 @@
     <div class="search-container">
         <form onsubmit={handleSearch} class="search-form">
             <span class="search-icon">🔍</span>
-            <input 
-                type="text" 
-                placeholder="Buscar por proyecto, PIA, área o departamento..." 
+            <input
+                type="text"
+                placeholder="Buscar por proyecto, PIA, área o departamento..."
                 bind:value={searchQuery}
                 class="search-input"
             />
@@ -28,7 +29,7 @@
     </div>
 
     <div class="navbar-actions">
-        <a href="/buscar" class="action-btn" title="Búsqueda avanzada">
+        <a href={asset("/buscar")} class="action-btn" title="Búsqueda avanzada">
             ⚡ Búsqueda Avanzada
         </a>
     </div>

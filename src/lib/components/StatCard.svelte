@@ -1,31 +1,32 @@
 <script lang="ts">
-    let { 
-        title, 
-        value, 
-        icon = '📊', 
-        subtitle = '', 
-        color = 'blue',
-        href = ''
+    import { asset } from "$app/paths";
+    let {
+        title,
+        value,
+        icon = "📊",
+        subtitle = "",
+        color = "blue",
+        href = "",
     }: {
         title: string;
         value: number | string;
         icon?: string;
         subtitle?: string;
-        color?: 'blue' | 'green' | 'amber' | 'red' | 'purple';
+        color?: "blue" | "green" | "amber" | "red" | "purple";
         href?: string;
     } = $props();
 
     const colorClasses = {
-        blue: 'card-blue',
-        green: 'card-green',
-        amber: 'card-amber',
-        red: 'card-red',
-        purple: 'card-purple'
+        blue: "card-blue",
+        green: "card-green",
+        amber: "card-amber",
+        red: "card-red",
+        purple: "card-purple",
     };
 </script>
 
 {#if href}
-    <a {href} class="stat-card {colorClasses[color]} is-link">
+    <a href={asset(href)} class="stat-card {colorClasses[color]} is-link">
         <div class="stat-icon">{icon}</div>
         <div class="stat-details">
             <span class="stat-title">{title}</span>
@@ -58,7 +59,9 @@
         align-items: flex-start;
         gap: 1rem;
         box-shadow: var(--shadow-sm);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
     }
 
     .stat-card.is-link:hover {
@@ -78,11 +81,21 @@
         flex-shrink: 0;
     }
 
-    .card-blue .stat-icon { background-color: var(--primary-light); }
-    .card-green .stat-icon { background-color: var(--success-bg); }
-    .card-amber .stat-icon { background-color: var(--warning-bg); }
-    .card-red .stat-icon { background-color: var(--danger-bg); }
-    .card-purple .stat-icon { background-color: var(--purple-bg); }
+    .card-blue .stat-icon {
+        background-color: var(--primary-light);
+    }
+    .card-green .stat-icon {
+        background-color: var(--success-bg);
+    }
+    .card-amber .stat-icon {
+        background-color: var(--warning-bg);
+    }
+    .card-red .stat-icon {
+        background-color: var(--danger-bg);
+    }
+    .card-purple .stat-icon {
+        background-color: var(--purple-bg);
+    }
 
     .stat-details {
         display: flex;

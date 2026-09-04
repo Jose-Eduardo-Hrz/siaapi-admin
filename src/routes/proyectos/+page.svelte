@@ -9,6 +9,7 @@
     import { formatearFecha } from "$lib/utils/dateFormat";
     import { evaluarEstadoProyecto } from "$lib/utils/projectStatus";
     import { goto } from "$app/navigation";
+    import { asset } from "$app/paths";
 
     let { data }: { data: PageData } = $props();
 
@@ -68,7 +69,7 @@
     ];
 
     function handleRowClick(row: (typeof data.proyectos)[0]) {
-        goto(`/proyectos/${row.id}`);
+        goto(asset(`/proyectos/${row.id}`));
     }
 </script>
 
@@ -164,7 +165,10 @@
                 </td>
                 <td>
                     <div class="proj-table-name">
-                        <a href="/proyectos/{proyecto.id}" class="proj-link">
+                        <a
+                            href={asset(`/proyectos/${proyecto.id}`)}
+                            class="proj-link"
+                        >
                             {proyecto.nombre}
                         </a>
                         {#if proyecto.pia1}
